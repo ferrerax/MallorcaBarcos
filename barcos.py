@@ -11,9 +11,9 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 import re
 
-#url="https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|GARRAF|current_port_in=1085"
+url="https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|ROSES|current_port_in=19814"
 
-url="https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|PALMA%20DE%20MALLORCA|current_port_in=75"
+#url="https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|PALMA%20DE%20MALLORCA|current_port_in=75"
 
 driver = webdriver.Chrome()
 driver.implicitly_wait(4)
@@ -50,7 +50,6 @@ nbarco=0
 it = 0
 noms=[]
 imos=[]
-dlinks=[]
 llarg=[]
 print("[+] BUSCADOR DE VAIXELLS AL PORT DE PALMA DE MALLORCA")
 for p in range(0,num_pag): #Tenim obtepags numero de pagines
@@ -82,6 +81,7 @@ for p in range(0,num_pag): #Tenim obtepags numero de pagines
 
 
 
+	dlinks=[] #Links de la pagina
 	elem = driver.find_elements_by_class_name("ag-cell-content-link") #Agafo els links dels noms dels barcos
 	
 	#print("He obtingut " + str(len(elem)) + " elements en aquesta pàgina") #Mostro la quantitat de barcos que tinc
@@ -93,41 +93,42 @@ for p in range(0,num_pag): #Tenim obtepags numero de pagines
 	
 	#print("[X]	"+str(len(dlinks))+" vaixells trobats")#Mostro el numero de barcos q he trobat
 	for l in dlinks:  # per cada link que he trobat a la pàgina
-		if noms[it] == None:
-			break
-		print("Processant vaixell " + str(nbarco+1) + " de " + str(num_vaixells))
-		print("Nom del vaixell: " + noms[it])
-		it += 1
-		nbarco += 1
-	#	print("Investigo " + l)
-		driver.get(l)
-		elem = driver.find_elements_by_class_name("qc-cmp-button")
-		for e in elem:
-			if e != None and e.text == "I ACCEPT":
-				#print("[X]	Acceptant Cookies...")
-				e.click()
-		h = driver.find_element_by_tag_name("body") 
-		for i in range(0,10):	# Faig scroll molt cutre
-			h.send_keys(Keys.SPACE)
-	
-#Intento obtenir l'IMO i llargada
 		try:
-			time.sleep(1)
-			info = driver.find_element_by_id("imo")
-			m = re.search(r'(?<=: )[0-9\-]+', info.text)
-			imo = m.group(0)
-			#print("			IMO: " + str(imo))
-			imos.append(imo)
-			info = driver.find_element_by_id("lengthOverallBreadthExtreme")
-			m = re.search(r'(?<=: )[0-9\.]*', info.text)
-			llargi = m.group(0)
-			#print("			Llarg: " + str(llargi))
-			llarg.append(llargi)
-		except NoSuchElementException:
-			imos.append(None)
-			llarg.append(None)
-			print("No info del barco")
-			
+			print("Processant vaixell " + str(nbarco+1) + " de " + str(num_vaixells))
+			print("Nom del vaixell: " + noms[it])
+			it += 1
+			nbarco += 1
+	#	print("Investigo " + l)
+			driver.get(l)
+			elem = driver.find_elements_by_class_name("qc-cmp-button")
+			for e in elem:
+				if e != None and e.text == "I ACCEPT":
+					#print("[X]	Acceptant Cookies...")
+					e.click()
+			h = driver.find_element_by_tag_name("body") 
+			for i in range(0,10):	# Faig scroll molt cutre
+				h.send_keys(Keys.SPACE)
+		
+	#Intento obtenir l'IMO i llargada
+			try:
+				time.sleep(1)
+				info = driver.find_element_by_id("imo")
+				m = re.search(r'(?<=: )[0-9\-]+', info.text)
+				imo = m.group(0)
+				#print("			IMO: " + str(imo))
+				imos.append(imo)
+				info = driver.find_element_by_id("lengthOverallBreadthExtreme")
+				m = re.search(r'(?<=: )[0-9\.]*', info.text)
+				llargi = m.group(0)
+				#print("			Llarg: " + str(llargi))
+				llarg.append(llargi)
+			except NoSuchElementException:
+				imos.append(None)
+				llarg.append(None)
+				print("No info del barco")
+		except e:
+			break
+				
 print("[+] FORMATANT LA SOTIDA")
 with open("./stalin.csv","w+") as fd:
 	#print(fd)
