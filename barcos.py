@@ -21,7 +21,7 @@ first = True
 def formataSortida(noms,imos,llarg):
 	a = []
 	for (n,i,l) in zip(noms, imos, llarg):
-		link ="https://www.google.com/search?q=intext:\""+n+"\" intext:"+i 
+		link ="https://www.google.com/search?q=intext:\""+str(n)+"\" intext:"+str(i) 
 		a.append({"Nom":n, "IMO":i, "Llargada en metres": l, "Link Info": link})
 	return a
 
