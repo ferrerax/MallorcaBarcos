@@ -12,7 +12,7 @@ import time
 import re
 
 
-url="http://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|PALMA%20DE%20MALLORCA|current_port_in=75"
+url="https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|PALAMOS|current_port_in=947"
 
 driver = webdriver.Chrome()
 driver.implicitly_wait(15)
@@ -21,7 +21,7 @@ first = True
 def formataSortida(noms,imos,llarg):
 	a = []
 	for (n,i,l) in zip(noms, imos, llarg):
-		link ="https://www.google.com/search?q=intext:\""+noms[i]+"\" intext:"+imos[i] 
+		link ="https://www.google.com/search?q=intext:\""+n+"\" intext:"+i 
 		a.append({"Nom":n, "IMO":i, "Llargada en metres": l, "Link Info": link})
 	return a
 
