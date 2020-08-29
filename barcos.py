@@ -51,7 +51,7 @@ imos=[]
 dlinks=[]
 llarg=[]
 print("[+] BUSCADOR DE VAIXELLS AL PORT DE PALMA DE MALLORCA")
-for p in xrange(0,num_pag-1): #Tenim obtepags numero de pagines
+for p in range(0,num_pag-1): #Tenim obtepags numero de pagines
 	driver.get(url)
 	
 # Acceptar les cookies
@@ -103,7 +103,7 @@ for p in xrange(0,num_pag-1): #Tenim obtepags numero de pagines
 				#print("[X]	Acceptant Cookies...")
 				e.click()
 		h = driver.find_element_by_tag_name("body") 
-		for i in xrange(0,10):	# Faig scroll molt cutre
+		for i in range(0,10):	# Faig scroll molt cutre
 			h.send_keys(Keys.SPACE)
 	
 #Intento obtenir l'IMO i llargada
