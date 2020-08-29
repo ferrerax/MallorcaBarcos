@@ -74,11 +74,11 @@ for p in range(0,num_pag): #Tenim obtepags numero de pagines
 		#	first=False
 		#print (e.get_attribute("title"))	
 		if "Next page" in e.get_attribute("title"):
-			print("[X]	Canviant a la  pagina... " + str(p+1))
+			#print("[X]	Canviant a la  pagina... " + str(p+1))
 			for i in range(0,p):	
 				e.click()
 				time.sleep(2)
-				print("Estic a la pàgina " + str(p+1))
+				#print("Estic a la pàgina " + str(p+1))
 
 
 
@@ -89,7 +89,7 @@ for p in range(0,num_pag): #Tenim obtepags numero de pagines
 		if "Show Details For:" in e.get_attribute("title"):
 			noms.append(e.text) #Em quedo el nom del barco
 			dlinks.append(e.get_attribute("href")) #Em quedo el link del barco
-			print(e.text)		# Mostro el nom del barco
+			#print(e.text)		# Mostro el nom del barco
 	
 	#print("[X]	"+str(len(dlinks))+" vaixells trobats")#Mostro el numero de barcos q he trobat
 	for l in dlinks:  # per cada link que he trobat a la pàgina
