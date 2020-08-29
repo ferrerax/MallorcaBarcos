@@ -16,7 +16,7 @@ url="https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,ship
 #url="https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|PALMA%20DE%20MALLORCA|current_port_in=75"
 
 driver = webdriver.Chrome()
-driver.implicitly_wait(5)
+driver.implicitly_wait(4)
 first = True
 
 def formataSortida(noms,imos,llarg):
