@@ -11,9 +11,9 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 import re
 
-url="https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|ROSES|current_port_in=19814"
+#url="https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|GARRAF|current_port_in=1085"
 
-#url="https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|PALMA%20DE%20MALLORCA|current_port_in=75"
+url="https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|PALMA%20DE%20MALLORCA|current_port_in=75"
 
 driver = webdriver.Chrome()
 driver.implicitly_wait(4)
@@ -93,6 +93,8 @@ for p in range(0,num_pag): #Tenim obtepags numero de pagines
 	
 	#print("[X]	"+str(len(dlinks))+" vaixells trobats")#Mostro el numero de barcos q he trobat
 	for l in dlinks:  # per cada link que he trobat a la pàgina
+		if noms[it] == None:
+			break
 		print("Processant vaixell " + str(nbarco+1) + " de " + str(num_vaixells))
 		print("Nom del vaixell: " + noms[it])
 		it += 1
