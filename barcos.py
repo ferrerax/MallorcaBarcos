@@ -21,7 +21,8 @@ first = True
 def formataSortida(noms,imos,llarg):
 	a = []
 	for (n,i,l) in zip(noms, imos, llarg):
-		a.append({"Nom":n, "IMO":i, "Llargada en metres": l})
+		link ="https://www.google.com/search?q=intext:\""+noms[i]+"\" intext:"+imos[i] 
+		a.append({"Nom":n, "IMO":i, "Llargada en metres": l, "Link Info": link})
 	return a
 
 def obtepags():
@@ -126,14 +127,14 @@ for p in xrange(0,num_pag-1): #Tenim obtepags numero de pagines
 print("[+] FORMATANT LA SOTIDA")
 with open("./stalin.csv","a+") as fd:
 	#print(fd)
-	csv_columns = ["Nom","IMO","Llargada en metres"]
+	csv_columns = ["Nom","IMO","Llargada en metres","Link Info"]
 	barcos = formataSortida(noms,imos,llarg)
 	writer = csv.DictWriter(fd,fieldnames=csv_columns)
 	writer.writeheader()
 	for data in barcos:
 		writer.writerow(data)
 #	for l in llarg:
-#		print(noms[i]+";"+l+";https://www.google.com/search?q=intext:\""+noms[i]+"\" intext:"+imos[i])
+		print(noms[i]+";"+l+";https://www.google.com/search?q=intext:\""+noms[i]+"\" intext:"+imos[i])
 #		fd.write(noms[i]+";"+l+";https://www.google.com/search?q=intext:\""+noms[i]+"\" intext:"+imos[i])
 #		i+=1
 driver.close()
