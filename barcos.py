@@ -11,11 +11,12 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 import re
 
+url="https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|ROSES|current_port_in=19814"
 
-url="https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|PALMA%20DE%20MALLORCA|current_port_in=75"
+#url="https://www.marinetraffic.com/en/data/?asset_type=vessels&columns=flag,shipname,photo,recognized_next_port,reported_eta,reported_destination,current_port,imo,ship_type,show_on_live_map,time_of_latest_position,lat_of_latest_position,lon_of_latest_position,notes&current_port_in|begins|PALMA%20DE%20MALLORCA|current_port_in=75"
 
 driver = webdriver.Chrome()
-driver.implicitly_wait(15)
+driver.implicitly_wait(5)
 first = True
 
 def formataSortida(noms,imos,llarg):
@@ -46,15 +47,17 @@ def obtepags():
 num_pag=obtepags()
 num_vaixells=num_pag*20
 nbarco=0
+it = 0
 noms=[]
 imos=[]
 dlinks=[]
 llarg=[]
 print("[+] BUSCADOR DE VAIXELLS AL PORT DE PALMA DE MALLORCA")
-for p in range(0,num_pag-1): #Tenim obtepags numero de pagines
+for p in range(0,num_pag): #Tenim obtepags numero de pagines
 	driver.get(url)
 	
 # Acceptar les cookies
+	time.sleep(2)
 	elem = driver.find_elements_by_class_name("qc-cmp-button")
 	for e in elem:
 		if e.text == "I ACCEPT":
@@ -71,11 +74,11 @@ for p in range(0,num_pag-1): #Tenim obtepags numero de pagines
 		#	first=False
 		#print (e.get_attribute("title"))	
 		if "Next page" in e.get_attribute("title"):
-	#		print("[X]	Canviant a la  pagina... " + str(p+1))
+			print("[X]	Canviant a la  pagina... " + str(p+1))
 			for i in range(0,p):	
 				e.click()
 				time.sleep(2)
-	#			print("Estic a la pàgina " + str(p+1))
+				print("Estic a la pàgina " + str(p+1))
 
 
 
@@ -86,10 +89,9 @@ for p in range(0,num_pag-1): #Tenim obtepags numero de pagines
 		if "Show Details For:" in e.get_attribute("title"):
 			noms.append(e.text) #Em quedo el nom del barco
 			dlinks.append(e.get_attribute("href")) #Em quedo el link del barco
-			#print(e.text)		# Mostro el nom del barco
+			print(e.text)		# Mostro el nom del barco
 	
 	#print("[X]	"+str(len(dlinks))+" vaixells trobats")#Mostro el numero de barcos q he trobat
-	it = 0
 	for l in dlinks:  # per cada link que he trobat a la pàgina
 		print("Processant vaixell " + str(nbarco+1) + " de " + str(num_vaixells))
 		print("Nom del vaixell: " + noms[it])
@@ -125,7 +127,7 @@ for p in range(0,num_pag-1): #Tenim obtepags numero de pagines
 			print("No info del barco")
 			
 print("[+] FORMATANT LA SOTIDA")
-with open("./stalin.csv","a+") as fd:
+with open("./stalin.csv","w+") as fd:
 	#print(fd)
 	csv_columns = ["Nom","IMO","Llargada en metres","Link Info"]
 	barcos = formataSortida(noms,imos,llarg)
@@ -134,7 +136,7 @@ with open("./stalin.csv","a+") as fd:
 	for data in barcos:
 		writer.writerow(data)
 #	for l in llarg:
-		print(noms[i]+";"+l+";https://www.google.com/search?q=intext:\""+noms[i]+"\" intext:"+imos[i])
+	#	print(noms[i]+";"+l+";https://www.google.com/search?q=intext:\""+noms[i]+"\" intext:"+imos[i])
 #		fd.write(noms[i]+";"+l+";https://www.google.com/search?q=intext:\""+noms[i]+"\" intext:"+imos[i])
 #		i+=1
 driver.close()
