@@ -46,6 +46,10 @@ def obtepags():
 num_pag=obtepags()
 num_vaixells=num_pag*20
 nbarco=0
+noms=[]
+imos=[]
+dlinks=[]
+llarg=[]
 print("[+] BUSCADOR DE VAIXELLS AL PORT DE PALMA DE MALLORCA")
 for p in xrange(0,num_pag-1): #Tenim obtepags numero de pagines
 	driver.get(url)
@@ -77,10 +81,6 @@ for p in xrange(0,num_pag-1): #Tenim obtepags numero de pagines
 
 	elem = driver.find_elements_by_class_name("ag-cell-content-link") #Agafo els links dels noms dels barcos
 	
-	noms=[]
-	imos=[]
-	dlinks=[]
-	llarg=[]
 	#print("He obtingut " + str(len(elem)) + " elements en aquesta pàgina") #Mostro la quantitat de barcos que tinc
 	for e in elem:
 		if "Show Details For:" in e.get_attribute("title"):
